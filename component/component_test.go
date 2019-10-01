@@ -131,8 +131,8 @@ func TestRawComponent_getName(t *testing.T) {
 				javascript: tt.fields.javascript,
 				css:        tt.fields.css,
 			}
-			if got := component.getName(); got != tt.want {
-				t.Errorf("RawComponent.getName() = %v, want %v", got, tt.want)
+			if got := component.GetName(); got != tt.want {
+				t.Errorf("RawComponent.GetName() = %v, want %v", got, tt.want)
 			}
 		})
 	}

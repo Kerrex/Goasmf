@@ -1,12 +1,8 @@
 package component
 
 // Component is default interface for any component type
-// Should provide ready to render HTML, Javascript and CSS
 type Component interface {
 	GetName() string
-	GetHTML() string
-	GetJavascript() string
-	GetCSS() string
 }
 
 // RawComponent is simple component providing raw HTML, jS and CSS without any preprocessing
@@ -29,13 +25,6 @@ func (component *RawComponent) GetCSS() string {
 	return component.css
 }
 
-func (component *RawComponent) getName() string {
+func (component *RawComponent) GetName() string {
 	return component.name
-}
-
-// ModelComponent is Component containing model used to render HTML
-type ModelComponent interface {
-	Component
-	GetModel() interface{}
-	SetModel(model interface{})
 }

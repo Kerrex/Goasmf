@@ -1,0 +1,4 @@
+<div>
+    This is interior of my second component!
+    {{testVariable}}
+</div>

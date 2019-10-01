@@ -1,0 +1,5 @@
+<div>
+    This is interior of my sample component!
+    {{testVariable}}
+    {{renderComponent "testComponent2" testVariable="dupadupadupa123123"}}
+</div>
