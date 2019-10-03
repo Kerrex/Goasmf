@@ -2,6 +2,8 @@ package handler
 
 import (
 	"goasmf/component"
+	"goasmf/helpers"
+	"goasmf/rendering"
 )
 
 type HtmlComponentHandler interface {
@@ -11,22 +13,24 @@ type HtmlComponentHandler interface {
 }
 
 type defaultHtmlComponentHandler struct {
+	handlebarsComponentHandler HandlebarsComponentHandler
 }
 
 func NewHtmlComponentHandler() HtmlComponentHandler {
-	return &defaultHtmlComponentHandler{}
+	return &defaultHtmlComponentHandler{handlebarsComponentHandler: NewHandlebarsComponentHandler(helpers.NewFetcher(), rendering.NewHandlebarsRenderer())}
 }
 
 func (this *defaultHtmlComponentHandler) GetHtml(c component.Component) string {
 	switch comp := c.(type) {
 	default:
-		println("Error!")
+		println("Its actually unreachable")
 		return ""
-	case component.HandlebarsComponent:
-		return getHandlebarsHtml(comp)
 	case *component.RawComponent:
 		return comp.GetHTML()
-
+	case component.CustomTemplateFileNameHandlebarsComponent:
+		return this.getCustomTemplateHandlebarsHtml(comp)
+	case component.HandlebarsComponent:
+		return this.getHandlebarsHtml(comp)
 	}
 }
 
@@ -38,7 +42,10 @@ func (this *defaultHtmlComponentHandler) GetJavascript(c component.Component) st
 	panic("not implemented!")
 }
 
-func getHandlebarsHtml(component component.HandlebarsComponent) string {
-	handler := NewHandlebarsComponentHandler(component.GetName())
-	return handler.GetHTML(component)
+func (this *defaultHtmlComponentHandler) getHandlebarsHtml(component component.HandlebarsComponent) string {
+	return this.handlebarsComponentHandler.GetHTMLForDefaultTemplateFile(component)
+}
+
+func (this *defaultHtmlComponentHandler) getCustomTemplateHandlebarsHtml(component component.CustomTemplateFileNameHandlebarsComponent) string {
+	return this.handlebarsComponentHandler.GetHTMLForTemplateFile(component, component.GetTemplateFileName())
 }

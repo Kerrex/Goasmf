@@ -2,6 +2,7 @@ package handler
 
 import (
 	"errors"
+	"goasmf/component"
 	"goasmf/helpers"
 	"goasmf/rendering"
 	"strings"
@@ -9,19 +10,29 @@ import (
 	"github.com/iancoleman/strcase"
 )
 
-type HandlebarsComponentHandler struct {
-	name     string
+type HandlebarsComponentHandler interface {
+	GetHTMLForTemplateFile(model component.Component, templateFileName string) string
+	GetHTMLForDefaultTemplateFile(model component.Component) string
+	GetJavascript() string
+	GetCSS() string
+}
+
+type defaultHandlebarsComponentHandler struct {
 	fetcher  helpers.Fetcher
 	renderer rendering.Renderer
 }
 
-func NewHandlebarsComponentHandler(name string) *HandlebarsComponentHandler {
-	return &HandlebarsComponentHandler{name: name, fetcher: helpers.NewFetcher(), renderer: rendering.NewHandlebarsRenderer()}
+func NewHandlebarsComponentHandler(fetcher helpers.Fetcher, renderer rendering.Renderer) HandlebarsComponentHandler {
+	return &defaultHandlebarsComponentHandler{fetcher: fetcher, renderer: renderer}
+}
+
+func NewCustomTemplateHandlebarsComponentHandler(templateFileName string, fetcher helpers.Fetcher, renderer rendering.Renderer) HandlebarsComponentHandler {
+	return &defaultHandlebarsComponentHandler{fetcher: fetcher, renderer: renderer}
 }
 
 // GetTemplateFileName gets valid template file name to fetch later
-func (this *HandlebarsComponentHandler) GetTemplateFileName() string {
-	return strcase.ToCamel(this.GetName()) + ".hbm"
+func getTemplateFileName(name string) string {
+	return strcase.ToCamel(name) + ".hbm"
 }
 
 func getValidatedTemplateFileName(fileName string) string {
@@ -46,15 +57,12 @@ func validateFileName(fileName string) error {
 	return nil
 }
 
-func (this *HandlebarsComponentHandler) GetName() string {
-	if strings.TrimSpace(this.name) == "" {
-		panic("component name cannot be empty")
+func (this *defaultHandlebarsComponentHandler) GetHTMLForTemplateFile(model component.Component, templateFileName string) string {
+	err := validateTemplateFileName(templateFileName)
+	if err != nil {
+		panic(err)
 	}
-	return this.name
-}
 
-func (this *HandlebarsComponentHandler) GetHTML(model interface{}) string {
-	templateFileName := this.GetTemplateFileName()
 	template, err := this.fetcher.FetchTemplate(templateFileName)
 	if err != nil {
 		return ""
@@ -63,10 +71,15 @@ func (this *HandlebarsComponentHandler) GetHTML(model interface{}) string {
 	return this.renderer.Render(template, model)
 }
 
-func (this *HandlebarsComponentHandler) GetJavascript() string {
+func (this *defaultHandlebarsComponentHandler) GetHTMLForDefaultTemplateFile(model component.Component) string {
+	templateFileName := getTemplateFileName(model.GetName())
+	return this.GetHTMLForTemplateFile(model, templateFileName)
+}
+
+func (this *defaultHandlebarsComponentHandler) GetJavascript() string {
 	panic("not implemented")
 }
 
-func (this *HandlebarsComponentHandler) GetCSS() string {
+func (this *defaultHandlebarsComponentHandler) GetCSS() string {
 	panic("not implemented")
 }

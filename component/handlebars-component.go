@@ -4,3 +4,8 @@ package component
 type HandlebarsComponent interface {
 	Component
 }
+
+type CustomTemplateFileNameHandlebarsComponent interface {
+	HandlebarsComponent
+	GetTemplateFileName() string
+}

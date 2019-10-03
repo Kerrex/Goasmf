@@ -7,24 +7,24 @@ type Component interface {
 
 // RawComponent is simple component providing raw HTML, jS and CSS without any preprocessing
 type RawComponent struct {
-	name, html, javascript, css string
+	Name, Html, Javascript, Css string
 }
 
 // GetHTML renders HTML string
 func (component *RawComponent) GetHTML() string {
-	return component.html
+	return component.Html
 }
 
 // GetJavascript renders JavaScript string
 func (component *RawComponent) GetJavascript() string {
-	return component.javascript
+	return component.Javascript
 }
 
 // GetCSS renders Css String
 func (component *RawComponent) GetCSS() string {
-	return component.css
+	return component.Css
 }
 
 func (component *RawComponent) GetName() string {
-	return component.name
+	return component.Name
 }

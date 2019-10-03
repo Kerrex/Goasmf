@@ -28,9 +28,9 @@ func TestRawComponent_GetJavascript(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			component := &RawComponent{
-				html:       tt.fields.html,
-				javascript: tt.fields.javascript,
-				css:        tt.fields.css,
+				Html:       tt.fields.html,
+				Javascript: tt.fields.javascript,
+				Css:        tt.fields.css,
 			}
 			if got := component.GetJavascript(); got != tt.want {
 				t.Errorf("RawComponent.GetJavascript() = %v, want %v", got, tt.want)
@@ -63,9 +63,9 @@ func TestRawComponent_GetCSS(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			component := &RawComponent{
-				html:       tt.fields.html,
-				javascript: tt.fields.javascript,
-				css:        tt.fields.css,
+				Html:       tt.fields.html,
+				Javascript: tt.fields.javascript,
+				Css:        tt.fields.css,
 			}
 			if got := component.GetCSS(); got != tt.want {
 				t.Errorf("RawComponent.GetCSS() = %v, want %v", got, tt.want)
@@ -94,9 +94,9 @@ func TestRawComponent_GetHTML(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			component := &RawComponent{
-				html:       tt.fields.html,
-				javascript: tt.fields.javascript,
-				css:        tt.fields.css,
+				Html:       tt.fields.html,
+				Javascript: tt.fields.javascript,
+				Css:        tt.fields.css,
 			}
 			if got := component.GetHTML(); got != tt.want {
 				t.Errorf("RawComponent.GetHTML() = %v, want %v", got, tt.want)
@@ -127,9 +127,9 @@ func TestRawComponent_getName(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			component := &RawComponent{
 				name:       tt.fields.name,
-				html:       tt.fields.html,
-				javascript: tt.fields.javascript,
-				css:        tt.fields.css,
+				Html:       tt.fields.html,
+				Javascript: tt.fields.javascript,
+				Css:        tt.fields.css,
 			}
 			if got := component.GetName(); got != tt.want {
 				t.Errorf("RawComponent.GetName() = %v, want %v", got, tt.want)
