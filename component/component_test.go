@@ -104,36 +104,3 @@ func TestRawComponent_GetHTML(t *testing.T) {
 		})
 	}
 }
-
-func TestRawComponent_getName(t *testing.T) {
-	type fields struct {
-		name       string
-		html       string
-		javascript string
-		css        string
-	}
-	tests := []struct {
-		name   string
-		fields fields
-		want   string
-	}{
-		{
-			name:   "should get name",
-			fields: fields{name: "componentName"},
-			want:   "componentName",
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			component := &RawComponent{
-				name:       tt.fields.name,
-				Html:       tt.fields.html,
-				Javascript: tt.fields.javascript,
-				Css:        tt.fields.css,
-			}
-			if got := component.GetName(); got != tt.want {
-				t.Errorf("RawComponent.GetName() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
