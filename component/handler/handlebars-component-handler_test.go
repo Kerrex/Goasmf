@@ -17,6 +17,7 @@ func (fetcher *TestFetcher) FetchTemplate(templateName string) (string, error) {
 }
 
 type testHandlebarsComponent struct {
+	component.BaseComponent
 	Name    string
 	Surname string
 }
@@ -35,6 +36,7 @@ func getCorrectTestComponentWithModel() component.Component {
 }
 
 type testHandlebarsComponent2 struct {
+	component.BaseComponent
 }
 
 func (this *testHandlebarsComponent2) GetName() string {
@@ -47,6 +49,7 @@ func getCorrectTestComponentWithoutModel() component.Component {
 }
 
 type testHandlebarsComponentNotExportedFields struct {
+	component.BaseComponent
 	name    string
 	surname string
 }

@@ -20,6 +20,10 @@ type HandlebarsRenderer struct {
 }
 
 func (renderer *HandlebarsRenderer) Render(hbm string, comp component.Component) string {
+	if comp == nil {
+		panic("cannot render component with no component!")
+	}
+
 	if template, ok := instanceTemplateCache[comp.GetInstanceId()]; ok {
 		html, err :=  template.Exec(comp)
 		if err != nil {
@@ -28,6 +32,9 @@ func (renderer *HandlebarsRenderer) Render(hbm string, comp component.Component)
 		return html
 	}
 	parsed, err := raymond.Parse(hbm)
+	if parsed == nil {
+		panic("invalid hbm file: " + hbm)
+	}
 	generateInstanceIdsAndSaveToGlobalContext(parsed)
 
 	println(parsed.PrintAST())

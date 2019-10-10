@@ -35,7 +35,7 @@ func InitRoutingModule(handler handler.HtmlComponentHandler) {
 	})
 
 	raymond.RegisterHelper("routerOutlet", func(options *raymond.Options) raymond.SafeString {
-		mainComponent := global.ComponentFactories["testComponent"](context.Background())
+		mainComponent := global.componentFactories["testComponent"](context.Background())
 		return raymond.SafeString(handler.GetHtml(mainComponent))
 	})
 }

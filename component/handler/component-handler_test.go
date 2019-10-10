@@ -25,9 +25,11 @@ func (this *TestHandlebarsComponentHandler) GetCSS() string {
 }
 
 type testHandlebarsComponent3 struct {
+	component.BaseComponent
 }
 
 type testHandlebarsComponent4 struct {
+	component.BaseComponent
 	testHandlebarsComponent3
 }
 

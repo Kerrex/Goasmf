@@ -102,7 +102,7 @@ func (r *RenderComponentVisitor) handleRenderComponentExpression(node *ast.Expre
 
 func (r *RenderComponentVisitor) generateNewComponentInstance(node *ast.Expression, generatedInstanceId string) {
 	componentName := node.Params[0].(*ast.StringLiteral).Value
-	componentInstanceFactory := global.ComponentFactories[componentName]
+	componentInstanceFactory := global.componentFactories[componentName]
 	if componentInstanceFactory == nil {
 		panic(fmt.Sprintf("component %s does not exists", componentName))
 	}
