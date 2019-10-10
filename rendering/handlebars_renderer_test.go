@@ -1,11 +1,14 @@
 package rendering
 
-import "testing"
+import (
+	"goasmf/component"
+	"testing"
+)
 
 func TestHandlebarsRenderer_Render(t *testing.T) {
 	type args struct {
 		hbm   string
-		model interface{}
+		model component.Component
 	}
 	testContexts := []struct {
 		Value interface{}

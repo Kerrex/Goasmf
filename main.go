@@ -11,6 +11,7 @@ import (
 )
 
 type TestComponent struct {
+	component.BaseComponent
 	TestVariable string
 }
 
@@ -19,6 +20,7 @@ func (this *TestComponent) GetName() string {
 }
 
 type TestComponent2 struct {
+	component.BaseComponent
 	TestVariable string
 }
 
@@ -27,6 +29,7 @@ func (this *TestComponent2) GetName() string {
 }
 
 type MainComponent struct {
+	component.BaseComponent
 }
 
 func (this *MainComponent) GetTemplateFileName() string {
@@ -39,6 +42,7 @@ func (this *MainComponent) GetName() string {
 
 func main() {
 	println("starting my application!!")
+	global.InitGlobalContext()
 	htmlHandler := handler.NewHtmlComponentHandler()
 	routing.InitRoutingModule(htmlHandler)
 

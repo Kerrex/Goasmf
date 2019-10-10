@@ -2,6 +2,7 @@ package routing
 
 import (
 	"context"
+	"fmt"
 	"goasmf/component"
 	"goasmf/component/handler"
 	"goasmf/global"
@@ -16,15 +17,9 @@ type Routing struct {
 
 func InitRoutingModule(handler handler.HtmlComponentHandler) {
 	raymond.RegisterHelper("renderComponent", func(componentName string, options *raymond.Options) raymond.SafeString {
-
-		componentRenderFactory := global.ComponentFactories[componentName]
-		if componentRenderFactory == nil {
-			panic("cannot render nonexistent component")
-		}
-
-		renderComponentContext := getRenderComponentContext(options)
-		componentToRender := componentRenderFactory(renderComponentContext)
-		if comp, ok := componentToRender.(component.Component); ok {
+		componentInstanceId := options.HashStr("componentInstanceId")
+		knownComponentInstances := global.GetGlobalContext().Value(global.CurrentlyRenderedComponentInstances).(map[string]component.Component)
+		if comp, ok := knownComponentInstances[componentInstanceId]; ok {
 			componentCopy := reflect.New(reflect.ValueOf(comp).Elem().Type()).Interface().(component.Component)
 			inputParameters := options.Hash()
 			for key, val := range inputParameters {
@@ -34,7 +29,7 @@ func InitRoutingModule(handler handler.HtmlComponentHandler) {
 					field.Set(reflect.ValueOf(val))
 				}
 			}
-			return raymond.SafeString(handler.GetHtml(componentCopy))
+			return raymond.SafeString(fmt.Sprintf("<div componentInstanceId=\"%s\">%s</div>", componentInstanceId, handler.GetHtml(componentCopy)))
 		}
 		return raymond.SafeString("")
 	})

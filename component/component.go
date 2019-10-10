@@ -3,10 +3,13 @@ package component
 // Component is default interface for any component type
 type Component interface {
 	GetName() string
+	GetInstanceId() string
+	SetInstanceId(componentInstanceId string)
 }
 
 // RawComponent is simple component providing raw HTML, jS and CSS without any preprocessing
 type RawComponent struct {
+	BaseComponent
 	Name, Html, Javascript, Css string
 }
 
@@ -28,3 +31,18 @@ func (component *RawComponent) GetCSS() string {
 func (component *RawComponent) GetName() string {
 	return component.Name
 }
+
+type BaseComponent struct {
+	instanceId string
+}
+
+func (b *BaseComponent) GetInstanceId() string {
+	return b.instanceId
+}
+
+func (b *BaseComponent) SetInstanceId(newInstanceId string) {
+	b.instanceId = newInstanceId
+}
+
+
+
