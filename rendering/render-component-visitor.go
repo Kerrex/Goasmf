@@ -6,11 +6,11 @@ import (
 	"github.com/aymerick/raymond/ast"
 	"goasmf/component"
 	"goasmf/global"
-	"goasmf/helpers"
+	"goasmf/utils"
 )
 
 type RenderComponentVisitor struct {
-	RenderingContext     context.Context
+	RenderingContext context.Context
 }
 
 func NewRenderComponentVisitor(renderingContext context.Context) *RenderComponentVisitor {
@@ -94,7 +94,7 @@ func (r *RenderComponentVisitor) handleRenderComponentExpression(node *ast.Expre
 		panic("renderComponent must be followed by component name!")
 	}
 
-	generatedInstanceId := helpers.RandomString(64)
+	generatedInstanceId := utils.RandomString(64)
 
 	r.addInstanceIdToHash(generatedInstanceId, node)
 	r.generateNewComponentInstance(node, generatedInstanceId)
@@ -102,7 +102,7 @@ func (r *RenderComponentVisitor) handleRenderComponentExpression(node *ast.Expre
 
 func (r *RenderComponentVisitor) generateNewComponentInstance(node *ast.Expression, generatedInstanceId string) {
 	componentName := node.Params[0].(*ast.StringLiteral).Value
-	componentInstanceFactory := global.componentFactories[componentName]
+	componentInstanceFactory := global.ComponentFactories[componentName]
 	if componentInstanceFactory == nil {
 		panic(fmt.Sprintf("component %s does not exists", componentName))
 	}

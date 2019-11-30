@@ -34,6 +34,10 @@ github.com/gotestyourself/gotestyourself v2.2.0+incompatible h1:AQwinXlbQR2HvPjQ
 github.com/gotestyourself/gotestyourself v2.2.0+incompatible/go.mod h1:zZKM6oeNM8k+FRljX1mnzVYeS8wiGgQyvST1/GafPbY=
 github.com/iancoleman/strcase v0.0.0-20190422225806-e506e3ef7365 h1:ECW73yc9MY7935nNYXUkK7Dz17YuSUI9yqRqYS8aBww=
 github.com/iancoleman/strcase v0.0.0-20190422225806-e506e3ef7365/go.mod h1:SK73tn/9oHe+/Y0h39VT4UCxmurVJkR5NA7kMEAOgSE=
+github.com/kerrex/dom v0.3.1-0.20191004085901-99ee641343a9 h1:ppehyIUScftqut9cIleh2pXa6m6GuXQSFw3TEgXnYRo=
+github.com/kerrex/dom v0.3.1-0.20191004085901-99ee641343a9/go.mod h1:aTLuOVfpO/M3SmuCFihHe6c7oLhWjZ/Wf+KM6MLeBbM=
+github.com/kerrex/dom v0.3.1-0.20191130141441-a330d9af7bf9 h1:EgM5Yhp3iJZKcBMmkaAmkJUGiDd0ZxlwS+gCtmz3eSk=
+github.com/kerrex/dom v0.3.1-0.20191130141441-a330d9af7bf9/go.mod h1:aTLuOVfpO/M3SmuCFihHe6c7oLhWjZ/Wf+KM6MLeBbM=
 github.com/knq/sysutil v0.0.0-20181215143952-f05b59f0f307 h1:vl4eIlySbjertFaNwiMjXsGrFVK25aOWLq7n+3gh2ls=
 github.com/knq/sysutil v0.0.0-20181215143952-f05b59f0f307/go.mod h1:BjPj+aVjl9FW/cCGiF3nGh5v+9Gd3VCgBQbod/GlMaQ=
 github.com/konsorten/go-windows-terminal-sequences v1.0.1 h1:mweAR1A6xJ3oS2pRaGiHgQ4OO8tzTaLawm8vnODuwDk=

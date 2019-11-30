@@ -31,11 +31,11 @@ func InitRoutingModule(handler handler.HtmlComponentHandler) {
 			}
 			return raymond.SafeString(fmt.Sprintf("<div componentInstanceId=\"%s\">%s</div>", componentInstanceId, handler.GetHtml(componentCopy)))
 		}
-		return raymond.SafeString("")
+		return ""
 	})
 
 	raymond.RegisterHelper("routerOutlet", func(options *raymond.Options) raymond.SafeString {
-		mainComponent := global.componentFactories["testComponent"](context.Background())
+		mainComponent := global.ComponentFactories["testComponent"](context.Background())
 		return raymond.SafeString(handler.GetHtml(mainComponent))
 	})
 }
