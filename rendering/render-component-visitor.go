@@ -95,7 +95,6 @@ func (r *RenderComponentVisitor) handleRenderComponentExpression(node *ast.Expre
 	}
 
 	generatedInstanceId := utils.RandomString(64)
-
 	r.addInstanceIdToHash(generatedInstanceId, node)
 	r.generateNewComponentInstance(node, generatedInstanceId)
 }

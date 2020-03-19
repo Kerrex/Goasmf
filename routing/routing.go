@@ -3,13 +3,13 @@ package routing
 import (
 	"context"
 	"fmt"
+	"github.com/aymerick/raymond"
+	"github.com/iancoleman/strcase"
 	"goasmf/component"
 	"goasmf/component/handler"
 	"goasmf/global"
+	"goasmf/rendering"
 	"reflect"
-
-	"github.com/aymerick/raymond"
-	"github.com/iancoleman/strcase"
 )
 
 type Routing struct {
@@ -20,23 +20,31 @@ func InitRoutingModule(handler handler.HtmlComponentHandler) {
 		componentInstanceId := options.HashStr("componentInstanceId")
 		knownComponentInstances := global.GetGlobalContext().Value(global.CurrentlyRenderedComponentInstances).(map[string]component.Component)
 		if comp, ok := knownComponentInstances[componentInstanceId]; ok {
-			componentCopy := reflect.New(reflect.ValueOf(comp).Elem().Type()).Interface().(component.Component)
 			inputParameters := options.Hash()
 			for key, val := range inputParameters {
-				ps := reflect.ValueOf(componentCopy)
+				ps := reflect.ValueOf(comp)
 				field := ps.Elem().FieldByName(strcase.ToCamel(key))
 				if field.IsValid() && field.CanAddr() && field.CanSet() {
 					field.Set(reflect.ValueOf(val))
 				}
 			}
-			return raymond.SafeString(fmt.Sprintf("<div componentInstanceId=\"%s\">%s</div>", componentInstanceId, handler.GetHtml(componentCopy)))
+			return raymond.SafeString(fmt.Sprintf("<div componentInstanceId=\"%s\">%s</div>", componentInstanceId, handler.GetHtml(comp)))
 		}
-		return ""
+
+		println("Component not registered:", componentName)
+		println(len(knownComponentInstances))
+		for key, val := range knownComponentInstances {
+			println("key: " + key + " value " + val.GetName())
+		}
+		println(global.GetGlobalContext().Value(global.CurrentlyRenderedComponentInstances))
+		return raymond.SafeString("")
 	})
 
 	raymond.RegisterHelper("routerOutlet", func(options *raymond.Options) raymond.SafeString {
+		renderer := rendering.NewHandlebarsRenderer()
 		mainComponent := global.ComponentFactories["testComponent"](context.Background())
-		return raymond.SafeString(handler.GetHtml(mainComponent))
+		renderedString := renderer.Render("{{renderComponent \"testComponent\"}}", mainComponent)
+		return raymond.SafeString(renderedString)
 	})
 }
 

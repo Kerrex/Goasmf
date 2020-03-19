@@ -2,12 +2,11 @@ package main
 
 import (
 	"context"
+	"github.com/dennwc/dom"
 	"goasmf/component"
 	"goasmf/component/handler"
 	"goasmf/global"
 	"goasmf/routing"
-
-	"github.com/dennwc/dom"
 )
 
 type TestComponent struct {
@@ -43,8 +42,6 @@ func (this *MainComponent) GetName() string {
 func main() {
 	println("starting my application!!")
 	global.InitGlobalContext()
-	htmlHandler := handler.NewHtmlComponentHandler()
-	routing.InitRoutingModule(htmlHandler)
 
 	global.RegisterComponent("testComponent", func(ctx context.Context) component.Component {
 		myComponent := &TestComponent{}
@@ -57,6 +54,9 @@ func main() {
 		myComponent.TestVariable = "calkowicieinnykomponent"
 		return myComponent
 	})
+
+	htmlHandler := handler.NewHtmlComponentHandler()
+	routing.InitRoutingModule(htmlHandler)
 
 	mainComponent := &MainComponent{}
 	dom.Body.SetInnerHTML(htmlHandler.GetHtml(mainComponent))
