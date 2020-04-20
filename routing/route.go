@@ -7,12 +7,14 @@ type Route interface {
 	GetPath() string
 	GetComponentName() string
 	GetChildren() []Route
+	GetRedirectPath() string
 }
 
 type BaseRoute struct {
 	Path string
 	ComponentName string
 	Children []Route
+	RedirectPath string
 }
 
 func (b *BaseRoute) GetPath() string {
@@ -27,6 +29,10 @@ func (b *BaseRoute) GetChildren() []Route {
 	return b.Children
 }
 
+func (b *BaseRoute) GetRedirectPath() string {
+	return b.RedirectPath
+}
+
 type RenderedRoute interface {
 	GetRoute() Route
 	GetComponent() component.Component
@@ -35,6 +41,7 @@ type RenderedRoute interface {
 type BaseRenderedRoute struct {
 	route     Route
 	component component.Component
+	path []Route
 }
 
 func (b BaseRenderedRoute) GetRoute() Route {
@@ -44,4 +51,5 @@ func (b BaseRenderedRoute) GetRoute() Route {
 func (b BaseRenderedRoute) GetComponent() component.Component {
 	return b.component
 }
+
 

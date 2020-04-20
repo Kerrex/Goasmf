@@ -59,6 +59,7 @@ func main() {
 	router := routing.Router{MainRoute: &routing.BaseRoute{
 		Path:          "",
 		ComponentName: "",
+		RedirectPath: "/test1/tesst3",
 		Children: []routing.Route{
 			&routing.BaseRoute{
 				Path:          "test1",

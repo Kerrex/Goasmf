@@ -16,5 +16,10 @@ func GetComponentFactoryByName(name string) func(ctx context.Context) component.
 }
 
 func CreateComponentByName(name string) component.Component {
-	return GetComponentFactoryByName(name)(context.Background())
+	factory := GetComponentFactoryByName(name)
+	if factory != nil {
+		return factory(context.Background())
+	} else {
+		return nil
+	}
 }

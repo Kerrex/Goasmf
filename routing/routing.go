@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/aymerick/raymond"
 	"github.com/dennwc/dom"
+	"github.com/dennwc/dom/js"
 	"github.com/iancoleman/strcase"
 	"goasmf/component"
 	"goasmf/component/handler"
@@ -44,13 +45,33 @@ func (this *Routing) InitRoutingModule(handler handler.HtmlComponentHandler) {
 
 	raymond.RegisterHelper("routerOutlet", func(options *raymond.Options) raymond.SafeString {
 		renderer := rendering.NewHandlebarsRenderer()
-		currentUrl := dom.GetWindow().JSValue().Get("location").Get("pathname").String()
-		println(currentUrl)
-		renderedRoute := this.Router.FindRenderedRouteByPath(currentUrl)
+		renderedRoute := this.getRouteToRender()
 		renderedString := renderer.Render(fmt.Sprintf("{{renderComponent \"%s\"}}", renderedRoute.GetComponent().GetName()), renderedRoute.GetComponent())
 
 		return raymond.SafeString(renderedString)
 	})
+}
+
+func (this *Routing) getRouteToRender() RenderedRoute {
+	renderedRoute := this.getRenderedRoute()
+
+	for renderedRoute.GetRoute().GetRedirectPath() != "" {
+		pathToRedirectTo := renderedRoute.GetRoute().GetRedirectPath()
+		js.Get("history").Call("pushState", nil, nil, pathToRedirectTo)
+		renderedRoute = this.getRenderedRoute()
+	}
+
+	return renderedRoute
+}
+
+func (this *Routing) getRenderedRoute() RenderedRoute {
+	currentUrl := getCurrentPath()
+	renderedRoute := this.Router.FindRenderedRouteByPath(currentUrl)
+	return renderedRoute
+}
+
+func getCurrentPath() string {
+	return dom.GetWindow().JSValue().Get("location").Get("pathname").String()
 }
 
 func getRenderComponentContext(options *raymond.Options) context.Context {
