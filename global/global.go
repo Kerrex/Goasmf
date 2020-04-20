@@ -14,3 +14,7 @@ func RegisterComponent(name string, factoryFunction func(context.Context) compon
 func GetComponentFactoryByName(name string) func(ctx context.Context) component.Component {
 	return ComponentFactories[name]
 }
+
+func CreateComponentByName(name string) component.Component {
+	return GetComponentFactoryByName(name)(context.Background())
+}

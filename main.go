@@ -56,7 +56,30 @@ func main() {
 	})
 
 	htmlHandler := handler.NewHtmlComponentHandler()
-	routing.InitRoutingModule(htmlHandler)
+	router := routing.Router{MainRoute: &routing.BaseRoute{
+		Path:          "",
+		ComponentName: "",
+		Children: []routing.Route{
+			&routing.BaseRoute{
+				Path:          "test1",
+				ComponentName: "testComponent",
+				Children:      []routing.Route{
+					&routing.BaseRoute{
+						Path:          "tesst3",
+						ComponentName: "testComponent2",
+						Children:      nil,
+					},
+				},
+			},
+			&routing.BaseRoute{
+				Path:          "test2",
+				ComponentName: "testComponent2",
+				Children:      nil,
+			},
+		},
+	}}
+	routingService := routing.Routing{Router: router}
+	routingService.InitRoutingModule(htmlHandler)
 
 	mainComponent := &MainComponent{}
 	dom.Body.SetInnerHTML(htmlHandler.GetHtml(mainComponent))

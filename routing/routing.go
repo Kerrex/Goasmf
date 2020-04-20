@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/aymerick/raymond"
+	"github.com/dennwc/dom"
 	"github.com/iancoleman/strcase"
 	"goasmf/component"
 	"goasmf/component/handler"
@@ -13,9 +14,10 @@ import (
 )
 
 type Routing struct {
+	Router Router
 }
 
-func InitRoutingModule(handler handler.HtmlComponentHandler) {
+func (this *Routing) InitRoutingModule(handler handler.HtmlComponentHandler) {
 	raymond.RegisterHelper("renderComponent", func(componentName string, options *raymond.Options) raymond.SafeString {
 		componentInstanceId := options.HashStr("componentInstanceId")
 		knownComponentInstances := global.GetGlobalContext().Value(global.CurrentlyRenderedComponentInstances).(map[string]component.Component)
@@ -42,8 +44,11 @@ func InitRoutingModule(handler handler.HtmlComponentHandler) {
 
 	raymond.RegisterHelper("routerOutlet", func(options *raymond.Options) raymond.SafeString {
 		renderer := rendering.NewHandlebarsRenderer()
-		mainComponent := global.ComponentFactories["testComponent"](context.Background())
-		renderedString := renderer.Render("{{renderComponent \"testComponent\"}}", mainComponent)
+		currentUrl := dom.GetWindow().JSValue().Get("location").Get("pathname").String()
+		println(currentUrl)
+		renderedRoute := this.Router.FindRenderedRouteByPath(currentUrl)
+		renderedString := renderer.Render(fmt.Sprintf("{{renderComponent \"%s\"}}", renderedRoute.GetComponent().GetName()), renderedRoute.GetComponent())
+
 		return raymond.SafeString(renderedString)
 	})
 }
