@@ -19,10 +19,8 @@ require (
 	github.com/opencontainers/image-spec v1.0.1 // indirect
 	github.com/opencontainers/runc v0.1.1 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
-	github.com/shurcooL/go v0.0.0-20191216061654-b114cc39af9f // indirect
-	github.com/shurcooL/go-goon v0.0.0-20170922171312-37c2f522c041 // indirect
 	github.com/sirupsen/logrus v1.4.2 // indirect
-	golang.org/x/net v0.0.0-20190620200207-3b0461eec859 // indirect
+	golang.org/x/net v0.7.0 // indirect
 	gotest.tools v2.2.0+incompatible // indirect
 )
 
